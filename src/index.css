@@ -1,8 +1,8 @@
 :root {
   --color-lightest: rgb(255, 255, 255);
   --color-light: #f3f8ff;
-  --color-medium: #fae7f3;
-  --color-dark: #1d1d1f;
+  --color-medium: #e7e7e7;
+  --color-dark: #959595;
 }
 
 * {
@@ -248,4 +248,121 @@ body {
 
 .statslist button:hover {
   background-color: var(--color-light);
+}
+
+.hidden {
+  display: none;
+}
+
+.div-button-back-reminders button {
+  width: 100%;
+  padding: 2rem;
+}
+
+.div-button-back-more button {
+  width: 100%;
+  padding: 2rem;
+  margin: 1.2rem 0;
+}
+
+.indiv-student {
+  font-size: 1.6rem;
+  display: grid;
+  align-items: center;
+  gap: 1.2rem;
+  background-color: var(--color-lightest);
+  border-radius: 7px;
+  box-shadow: 2px 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.indiv-student {
+  grid-template-columns: 30rem 1fr;
+  padding: 0 4rem;
+}
+
+.indiv-student h3 {
+  height: 6rem;
+}
+
+.shortlessonlist li {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 2rem; /* Set the height of each list item */
+  border-radius: 2rem;
+  transition: 0.5s;
+  font-size: 2.25rem;
+  font-weight: bold;
+  padding: 4rem 0; /* Adjust padding as needed */
+}
+
+.indiv-student-details ul {
+  background-color: var(--color-light);
+  border-radius: 2rem;
+  box-shadow: 2px 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.shortlessonlist ul {
+  background-color: var(--color-light);
+  border-radius: 2rem;
+  box-shadow: 2px 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.indiv-student-details li {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 0.5rem; /* Set the height of each list item */
+  border-radius: 2rem;
+  transition: 0.5s;
+  font-size: 2rem;
+  font-weight: bold;
+  padding: 4rem 0; /* Adjust padding as needed */
+  color: #6e6e73;
+}
+
+.shortlessonlist li:hover {
+  background-color: var(--color-lightest);
+}
+
+form {
+  font-size: 3rem;
+  display: grid;
+  align-items: center;
+  gap: 1.2rem;
+  background-color: var(--color-lightest);
+  border-radius: 7px;
+  box-shadow: 2px 4px 12px rgba(0, 0, 0, 0.08);
+  padding: 5rem;
+}
+
+label {
+  font-weight: 625;
+}
+
+input,
+select {
+  font-family: inherit;
+  color: inherit;
+  font-size: 1.75rem;
+  padding: 1rem;
+  text-align: center;
+  border: 1.5px solid var(--color-medium);
+  border-radius: 2rem;
+  transition: 0.3s;
+  box-shadow: 2px 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+input:focus,
+select:focus {
+  outline: none;
+  border: 1px solid var(--color-dark);
+}
+
+.indiv-student,
+form .button {
+  margin-top: 0.6rem;
+  grid-column: 2;
 }
