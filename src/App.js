@@ -1,23 +1,7 @@
 import { useEffect, useState } from "react";
-import { StudentData, LessonData } from "./data.js";
+import { StudentData, LessonData, students } from "./data.js";
 
-const students = [
-  { name: "Chao Keng EJ", level: "JC", subject: "H2 Math", rate: "$50/hr" },
-  { name: "Jamie Vardy", level: "JC", subject: "H2 Math", rate: "$50/hr" },
-  { name: "Zoom 60", level: "JC", subject: "H2 Math", rate: "$50/hr" },
-  { name: "Shar", level: "JC", subject: "H2 Math", rate: "$50/hr" },
-  { name: "Jamie Caragher", level: "JC", subject: "H2 Math", rate: "$50/hr" },
-  // { name: "Jamie Rednapp", level: "JC", subject: "H2 Math", rate: "$50/hr" },
-  // { name: "Cristiano", level: "JC", subject: "H2 Math", rate: "$50/hr" },
-  // { name: "Chao Keng EJ", level: "JC", subject: "H2 Math", rate: "$50/hr" },
-  // { name: "Jamie Vardy", level: "JC", subject: "H2 Math", rate: "$50/hr" },
-  // { name: "Zoom 60", level: "JC", subject: "H2 Math", rate: "$50/hr" },
-  // { name: "Shar", level: "JC", subject: "H2 Math", rate: "$50/hr" },
-  // { name: "Jamie Caragher", level: "JC", subject: "H2 Math", rate: "$50/hr" },
-  // { name: "Jamie Rednapp", level: "JC", subject: "H2 Math", rate: "$50/hr" },
-  // { name: "Cristiano", level: "JC", subject: "H2 Math", rate: "$50/hr" },
-];
-
+console.log(students);
 const lessons = [
   {
     id: 118836,
@@ -94,6 +78,7 @@ const lessons = [
 ];
 
 function App() {
+  const [studentlist, setStudentList] = useState(students);
   const [currentDate, setNewDate] = useState(new Date().getTime());
   const [modal, setModal] = useState(false);
   const [addStudent, setAddStudent] = useState(false);
@@ -104,19 +89,20 @@ function App() {
     return () => clearInterval(interval);
   });
 
-  function handleStudentClick(name) {
-    if (name === modal) {
+  function handleStudentClick(studentID) {
+    console.log(studentID);
+    if (studentID === modal) {
       setAddStudent(false);
       setModal(false);
     } else {
       setAddStudent(false);
-      setModal(name);
+      setModal(studentID);
     }
   }
 
   function handleAddStudentClick() {
     setModal(false);
-    setAddStudent(true);
+    setAddStudent(!addStudent);
   }
 
   return (
@@ -130,13 +116,16 @@ function App() {
       <StudentTab
         modal={modal}
         handleStudentClick={handleStudentClick}
+        students={students}
       ></StudentTab>
       <AddStudentTab
         addStudent={addStudent}
         handleStudentClick={handleStudentClick}
+        setStudentList={setStudentList}
+        students={students}
       ></AddStudentTab>
       <StudentList
-        students={students}
+        students={studentlist}
         handleStudentClick={handleStudentClick}
         addStudent={addStudent}
         handleAddStudentClick={handleAddStudentClick}
@@ -231,25 +220,18 @@ function Lesson({ index, name, date, day, time, currentDate }) {
   );
 }
 
-function StudentList({
-  students,
-  handleStudentClick,
-  addStudent,
-  handleAddStudentClick,
-}) {
+function StudentList({ students, handleStudentClick, handleAddStudentClick }) {
   return (
     <div>
       <h1 className="heading">STUDENTS</h1>
       <div className="studentlist">
         <ul>
-          {students.map((student, i) => {
+          {Object.entries(students)?.map((student, i) => {
+            console.log(student);
             return (
               <Student
                 index={i}
-                name={student.name}
-                level={student.level}
-                subject={student.subject}
-                rate={student.rate}
+                student={student}
                 handleStudentClick={handleStudentClick}
               ></Student>
             );
@@ -265,21 +247,21 @@ function StudentList({
   );
 }
 
-function Student({ index, name, level, subject, rate, handleStudentClick }) {
+function Student({ index, student, handleStudentClick }) {
   return (
     <li
       className={index % 2 ? "off-white-bg" : ""}
-      key={index}
-      onClick={() => handleStudentClick(name)}
+      key={student[0]}
+      onClick={() => handleStudentClick(student[0])}
     >
       <div className="student">
         <div className="studentname">
-          <h1>{name.toUpperCase()}</h1>
+          <h1>{student[1].name.toUpperCase()}</h1>
         </div>
         <div>
-          <span>{level.toUpperCase()}</span> |{" "}
-          <span>{subject.toUpperCase()}</span> |{" "}
-          <span>{rate.toUpperCase()}</span>
+          <span>{student[1].level.toUpperCase()}</span> |{" "}
+          <span>{student[1].subject.toUpperCase()}</span> |{" "}
+          <span>{student[1].rate}/HR</span>
         </div>
       </div>
     </li>
@@ -318,24 +300,26 @@ function Stats() {
   );
 }
 
-function StudentTab({ modal, handleStudentClick }) {
+function StudentTab({ modal, handleStudentClick, students }) {
   return (
     <div className={modal ? "sidebar" : "sidebar hidden"}>
       <div className="reminders-heading">
-        <h1 className="heading">{String(modal).toUpperCase()}</h1>
+        <h1 className="heading">
+          {String(students[modal]?.name).toUpperCase()}
+        </h1>
       </div>
       <div className="indiv-student">
         <div className="indiv-student-details">
           <h1 className="heading">DETAILS</h1>
           <ul>
             <li>
-              <h3>LEVEL: JC2</h3>
+              <h3>LEVEL: {students[modal]?.level.toUpperCase()}</h3>
             </li>
             <li>
-              <h3>SUBJECT: H2 MATH</h3>
+              <h3>SUBJECT: {students[modal]?.subject.toUpperCase()}</h3>
             </li>
             <li>
-              <h3>RATE: $50/HR</h3>
+              <h3>RATE: ${students[modal]?.rate}/HR</h3>
             </li>
             <li>
               <h3>TOTAL EARNED: $500</h3>
@@ -345,18 +329,11 @@ function StudentTab({ modal, handleStudentClick }) {
         <div className="shortlessonlist">
           <h1 className="heading">UPCOMING LESSONS</h1>
           <ul className="off-white-bg">
-            <li>
-              <h3>10 JAN 2024</h3>
-            </li>
-            <li>
-              <h3>10 JAN 2024</h3>
-            </li>
-            <li>
-              <h3>10 JAN 2024</h3>
-            </li>
-            <li>
-              <h3>10 JAN 2024</h3>
-            </li>
+            {modal
+              ? Object.entries(students[modal]?.lessons).map((lesson) => {
+                  return <li>{lesson[1].startTime}</li>;
+                })
+              : ""}
           </ul>
         </div>
       </div>
@@ -374,20 +351,36 @@ function StudentTab({ modal, handleStudentClick }) {
   );
 }
 
-function AddStudentTab({ addStudent, handleStudentClick }) {
+function AddStudentTab({
+  addStudent,
+  handleStudentClick,
+  setStudentList,
+  students,
+}) {
   const [studentName, setStudentName] = useState("");
   const [level, setLevel] = useState("");
   const [subject, setSubject] = useState("");
   const [rate, setRate] = useState("");
-  const [date, setDate] = useState("");
+  const [date, setDate] = useState("SUNDAY");
+  const [time, setTime] = useState("");
 
   function handleSubmit(e) {
     e.preventDefault();
 
     if (!date || !studentName || !level || !subject) return;
 
-    const newStudent = new StudentData(studentName, level, subject, rate);
+    const newStudent = new StudentData(
+      studentName,
+      level,
+      subject,
+      rate,
+      date,
+      time,
+      "2hrs"
+    );
     console.log(newStudent);
+    students.addStudent(newStudent);
+    setStudentList(students);
   }
 
   return (
@@ -436,7 +429,7 @@ function AddStudentTab({ addStudent, handleStudentClick }) {
             <option value={date}>SATURDAY</option>
           </select>
           <label>TIME</label>
-          <select onChange={() => setDate(date)}>
+          <select onChange={() => setTime(time)}>
             <option value={date}>NIL</option>
             <option value={date}>7AM</option>
             <option value={date}>8AM</option>
@@ -463,7 +456,6 @@ function AddStudentTab({ addStudent, handleStudentClick }) {
             <option value={date}>5AM</option>
             <option value={date}>6AM</option>
           </select>
-          {/* <label>DURATION</label> */}
           <Button onClick={handleSubmit}>SAVE</Button>
         </form>
       </div>

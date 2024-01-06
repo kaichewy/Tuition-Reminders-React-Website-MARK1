@@ -1,21 +1,33 @@
-const lessonlist = [];
-const studentlist = [];
-
 class StudentData {
-  constructor(name, level, subject, rate) {
-    this.id = this.getId();
+  constructor(name, level, subject, rate, date, time, duration) {
     this.name = name;
     this.level = level;
     this.subject = subject;
     this.rate = rate;
+    this.date = date;
+    this.time = time;
+    this.duration = duration;
+    this.lessons = {};
+    for (let i = 0; i < 4; i++) {
+      this.createLessons();
+    }
   }
-  getId() {
-    return crypto.randomUUID();
+
+  createLessons() {
+    const id = crypto.randomUUID();
+    this.lessons[id] = new LessonData(
+      id,
+      this,
+      this.date,
+      this.time,
+      this.duration
+    );
   }
 }
 
 class LessonData {
-  constructor(student, date, startTime, duration) {
+  constructor(id, student, date, startTime, duration) {
+    this.id = id;
     this.student = student;
     this.date = date;
     this.startTime = startTime;
@@ -24,9 +36,11 @@ class LessonData {
 }
 
 class AllStudentData {
-  constructor(student) {
-    this.student.id = student;
+  addStudent(student) {
+    this[crypto.randomUUID()] = student;
   }
 }
 
-export { StudentData, LessonData, AllStudentData };
+const students = new AllStudentData();
+
+export { StudentData, LessonData, students };
