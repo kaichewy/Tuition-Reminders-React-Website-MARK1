@@ -266,8 +266,8 @@ function StudentTab({ modal, handleStudentClick, students }) {
           <h1 className="heading">UPCOMING LESSONS</h1>
           <ul className="off-white-bg">
             {modal
-              ? Object.entries(students[modal]?.lessons).map((lesson) => {
-                  return <li>{lesson[1].startTime}</li>;
+              ? Object.values(students[modal]?.lessons).map((lesson) => {
+                  return <li>{lesson.date}</li>;
                 })
               : ""}
           </ul>
