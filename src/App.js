@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { StudentData, LessonData } from "./data.js";
+import EditForm from "./EditForm.js";
 
 const students = [
   { name: "Chao Keng EJ", level: "JC", subject: "H2 Math", rate: "$50/hr" },
@@ -97,12 +98,13 @@ function App() {
   const [currentDate, setNewDate] = useState(new Date().getTime());
   const [modal, setModal] = useState(false);
   const [addStudent, setAddStudent] = useState(false);
+
   useEffect(() => {
     const interval = setInterval(() => {
       setNewDate(new Date().getTime());
     }, 1000);
     return () => clearInterval(interval);
-  });
+  }, []);
 
   function handleStudentClick(name) {
     if (name === modal) {
@@ -146,9 +148,9 @@ function App() {
   );
 }
 
-function Button({ children, onClick }) {
+export function Button({ children, onClick, customClass = "" }) {
   return (
-    <button className="button" onClick={onClick}>
+    <button className={`button ${customClass}`} onClick={onClick}>
       {children}
     </button>
   );
@@ -317,48 +319,92 @@ function Stats() {
     </div>
   );
 }
-
+// @rynbol
 function StudentTab({ modal, handleStudentClick }) {
+  const [showEditLesson, setEditLesson] = useState(false);
+  const [showEditDetails, setEditDetails] = useState(false);
+
+  const [level, setLevel] = useState("JC2");
+  const [subject, setSubject] = useState("H2 Math");
+  const [rate, setRate] = useState("50");
+
+  function handleEditDetails() {
+    setEditDetails((prev) => !prev);
+  }
+  function handleEdit() {
+    setEditLesson((cur) => !cur);
+  }
+
+  function handleClick(e) {
+    console.log(e.target.value);
+  }
+
   return (
     <div className={modal ? "sidebar" : "sidebar hidden"}>
       <div className="reminders-heading">
         <h1 className="heading">{String(modal).toUpperCase()}</h1>
       </div>
       <div className="indiv-student">
-        <div className="indiv-student-details">
+        <div
+          className={`indiv-student-details ${showEditLesson ? "hidden" : ""}`}
+        >
           <h1 className="heading">DETAILS</h1>
           <ul>
             <li>
-              <h3>LEVEL: JC2</h3>
+              {showEditDetails ? (
+                <input value={level}></input>
+              ) : (
+                <h3>LEVEL: {level}</h3>
+              )}
             </li>
+            <li>{showEditDetails ? <p>Hi</p> : <h3>SUBJECT: {subject}</h3>}</li>
+            <li>{showEditDetails ? <p>Hi</p> : <h3>RATE: ${rate}/HR</h3>}</li>
             <li>
-              <h3>SUBJECT: H2 MATH</h3>
-            </li>
-            <li>
-              <h3>RATE: $50/HR</h3>
-            </li>
-            <li>
-              <h3>TOTAL EARNED: $500</h3>
+              {/* <h3>TOTAL EARNED: $500</h3> */}
+              <Button customClass={"editDetails"} onClick={handleEditDetails}>
+                {showEditDetails ? "Close" : "Edit details"}
+              </Button>
             </li>
           </ul>
         </div>
         <div className="shortlessonlist">
           <h1 className="heading">UPCOMING LESSONS</h1>
           <ul className="off-white-bg">
-            <li>
-              <h3>10 JAN 2024</h3>
+            <li onClick={handleClick}>
+              <h3>
+                10 JAN 2024
+                <Button onClick={handleEdit} customClass={"float-right"}>
+                  {showEditLesson ? "Close" : "Edit"}
+                </Button>
+              </h3>
             </li>
             <li>
-              <h3>10 JAN 2024</h3>
+              <h3>
+                10 JAN 2024{" "}
+                <Button onClick={handleEdit} customClass={"float-right"}>
+                  {showEditLesson ? "Close" : "Edit"}
+                </Button>
+              </h3>
             </li>
             <li>
-              <h3>10 JAN 2024</h3>
+              <h3>
+                10 JAN 2024{" "}
+                <Button onClick={handleEdit} customClass={"float-right"}>
+                  {showEditLesson ? "Close" : "Edit"}
+                </Button>
+              </h3>
             </li>
             <li>
-              <h3>10 JAN 2024</h3>
+              <h3>
+                10 JAN 2024
+                <Button onClick={handleEdit} customClass={"float-right"}>
+                  {showEditLesson ? "Close" : "Edit"}
+                </Button>
+              </h3>
             </li>
           </ul>
         </div>
+        {showEditLesson && <EditForm />}
       </div>
 
       <div class="div-button-back-more">
