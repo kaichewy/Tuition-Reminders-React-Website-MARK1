@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Button } from "./App";
+import { Button } from "./Button";
 
 export default function EditForm({
   el,
