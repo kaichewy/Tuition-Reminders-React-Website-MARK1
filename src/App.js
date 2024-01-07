@@ -7,8 +7,8 @@ import { StudentList } from "./StudentList.js";
 import { Reminders } from "./Reminders.js";
 
 function App() {
-  const [studentlist, setStudentList] = useState(students);
   const [currentDate, setNewDate] = useState(new Date().getTime());
+  const [studentlist, setStudentList] = useState(students);
   const [modal, setModal] = useState(false);
   const [addStudent, setAddStudent] = useState(false);
   const lessons = students
@@ -17,7 +17,16 @@ function App() {
       )
     : [];
 
-  console.log(lessons);
+  // TESTING students and lessons
+  // useEffect(() => {
+  //   function asdasd() {
+  //     console.log("STUDENTS", students);
+  //     console.log("LESSONS", lessons);
+  //   }
+  //   asdasd();
+  // }, [students]);
+  // console.log("STUDENTS", students);
+
   useEffect(() => {
     const interval = setInterval(() => {
       setNewDate(new Date().getTime());
@@ -26,7 +35,7 @@ function App() {
   }, []);
 
   function handleStudentClick(studentID) {
-    console.log(studentID);
+    // console.log(studentID);
     if (studentID === modal) {
       setAddStudent(false);
       setModal(false);

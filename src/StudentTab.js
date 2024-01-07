@@ -50,7 +50,10 @@ export function StudentTab({ modal, handleStudentClick, students }) {
               <h3>RATE: ${students[modal]?.rate}/HR</h3>
             </li>
             <li>
-              <h3>TOTAL EARNED: $500</h3>
+              {/* <h3>TOTAL EARNED: $500</h3> */}
+              <Button onClick={handleEditDetails}>
+                {showEditDetails ? "Close" : "Edit Details"}
+              </Button>
             </li>
           </ul>
         </div>
