@@ -15,9 +15,10 @@ class StudentData {
 
   createLessons() {
     const id = crypto.randomUUID();
+    const student = this;
     this.lessons[id] = new LessonData(
       id,
-      this,
+      student,
       this.date,
       this.time,
       this.duration
@@ -40,6 +41,12 @@ class AllStudentData {
     this[crypto.randomUUID()] = student;
   }
 }
+
+// class AllLessonData {
+//   addLesson(lesson) {
+//     this[lesson.id] = lesson;
+//   }
+// }
 
 const students = new AllStudentData();
 

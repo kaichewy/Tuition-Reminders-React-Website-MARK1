@@ -1,87 +1,18 @@
 import { useEffect, useState } from "react";
 import { StudentData, LessonData, students } from "./data.js";
 
-console.log(students);
-const lessons = [
-  {
-    id: 118836,
-    name: "Clark",
-    image: "https://i.pravatar.cc/48?u=118836",
-    date: "6 January 2024",
-    day: "Thurs",
-    time: "2pm - 4pm",
-  },
-  {
-    id: 933372,
-    name: "Sarah",
-    image: "https://i.pravatar.cc/48?u=933372",
-    date: "10 Febuary 2024",
-    day: "Mon",
-    time: "2pm - 4pm",
-  },
-  // {
-  //   id: 499476,
-  //   name: "Anthony",
-  //   image: "https://i.pravatar.cc/48?u=499476",
-  //   date: "10 March 2024",
-  //   day: "Fri",
-  //   time: "2pm - 4pm",
-  // },
-  // {
-  //   id: 118836,
-  //   name: "Clark",
-  //   image: "https://i.pravatar.cc/48?u=118836",
-  //   date: "10 January 2024",
-  //   day: "Thurs",
-  //   time: "2pm - 4pm",
-  // },
-  // {
-  //   id: 933372,
-  //   name: "Sarah",
-  //   image: "https://i.pravatar.cc/48?u=933372",
-  //   date: "10 Febuary 2024",
-  //   day: "Mon",
-  //   time: "2pm - 4pm",
-  // },
-  // {
-  //   id: 499476,
-  //   name: "Anthony",
-  //   image: "https://i.pravatar.cc/48?u=499476",
-  //   date: "10 March 2024",
-  //   day: "Fri",
-  //   time: "2pm - 4pm",
-  // },
-  // {
-  //   id: 118836,
-  //   name: "Clark",
-  //   image: "https://i.pravatar.cc/48?u=118836",
-  //   date: "10 January 2024",
-  //   day: "Thurs",
-  //   time: "2pm - 4pm",
-  // },
-  // {
-  //   id: 933372,
-  //   name: "Sarah",
-  //   image: "https://i.pravatar.cc/48?u=933372",
-  //   date: "10 Febuary 2024",
-  //   day: "Mon",
-  //   time: "2pm - 4pm",
-  // },
-  // {
-  //   id: 499476,
-  //   name: "Anthony",
-  //   image: "https://i.pravatar.cc/48?u=499476",
-  //   date: "10 March 2024",
-  //   day: "Fri",
-  //   time: "2pm - 4pm",
-  // },
-];
-
 function App() {
   const [studentlist, setStudentList] = useState(students);
   const [currentDate, setNewDate] = useState(new Date().getTime());
   const [modal, setModal] = useState(false);
   const [addStudent, setAddStudent] = useState(false);
+  const lessons = students
+    ? Object.values(students).flatMap((student) =>
+        Object.values(student.lessons)
+      )
+    : [];
+
+  console.log(lessons);
   useEffect(() => {
     const interval = setInterval(() => {
       setNewDate(new Date().getTime());
@@ -109,6 +40,7 @@ function App() {
     <div className="app">
       <Reminders
         lessons={lessons}
+        students={students}
         currentDate={currentDate}
         modal={modal}
         addStudent={addStudent}
@@ -143,7 +75,7 @@ function Button({ children, onClick }) {
   );
 }
 
-function Reminders({ lessons, currentDate, modal, addStudent }) {
+function Reminders({ lessons, students, currentDate, modal, addStudent }) {
   const diffDays =
     (new Date("6 January 2024 13:00:00") - currentDate) / (1000 * 3600 * 24);
   const diffHours = (diffDays - Math.floor(diffDays)) * 24;
@@ -167,34 +99,39 @@ function Reminders({ lessons, currentDate, modal, addStudent }) {
           {displayDiff} till next lesson
         </h3>
       </div>
-      <LessonList lessons={lessons} currentDate={currentDate}></LessonList>
+      <LessonList
+        lessons={lessons}
+        students={students}
+        currentDate={currentDate}
+      ></LessonList>
     </div>
   );
 }
 
-function LessonList({ lessons, currentDate }) {
+function LessonList({ lessons, students, currentDate }) {
   return (
     <div className="lessonlist">
       <ul>
-        {lessons.map((lesson, i) => {
-          return (
-            <Lesson
-              index={i}
-              name={lesson.name}
-              date={lesson.date}
-              day={lesson.day}
-              time={lesson.time}
-              key={lesson.id}
-              currentDate={currentDate}
-            ></Lesson>
-          );
-        })}
+        {students
+          ? lessons.map((lesson, i) => {
+              return (
+                <Lesson
+                  index={i}
+                  name={lesson.student?.name}
+                  date={lesson.date}
+                  time={lesson.time}
+                  key={lesson.id}
+                  currentDate={currentDate}
+                ></Lesson>
+              );
+            })
+          : ""}
       </ul>
     </div>
   );
 }
 
-function Lesson({ index, name, date, day, time, currentDate }) {
+function Lesson({ index, name, date, time, currentDate }) {
   const days = Math.floor((new Date(date) - currentDate) / (1000 * 24 * 3600));
   const hours = Math.round((new Date(date) - currentDate) / (1000 * 24 * 60));
   return (
@@ -203,12 +140,11 @@ function Lesson({ index, name, date, day, time, currentDate }) {
     >
       <div>
         <p>
-          <span className="blue">{name.toUpperCase()}, </span>
-          <span className="green">{date.slice(0, 2)}</span>
-          <span className="black">{date.slice(2).toUpperCase()}</span>{" "}
-          <span className="orange">({day.toUpperCase()})</span>,{" "}
-          <span className="darker">{time.toUpperCase()}</span>{" "}
-          <Button>EDIT ✏️</Button>
+          <span className="blue">{name}, </span>
+          <span className="green">{date}</span>
+          <span className="black">{date}</span>{" "}
+          {/* <span className="orange">({day})</span>,{" "} */}
+          <span className="darker">{time}</span> <Button>EDIT ✏️</Button>
         </p>
         <p>
           <span className="red">
@@ -378,7 +314,6 @@ function AddStudentTab({
       time,
       "2hrs"
     );
-    console.log(newStudent);
     students.addStudent(newStudent);
     setStudentList(students);
   }
