@@ -303,7 +303,14 @@ function StudentTab({ modal, handleStudentClick, students }) {
                 //       </li>
                 //     );
                 Object.values(students[modal]?.lessons).map((lesson) => {
-                  return <li>{lesson.date}</li>;
+                  return (
+                    <li>
+                      {lesson.date}
+                      <Button onClick={handleEdit} customClass={"float-right"}>
+                        {showEditLesson ? "Close" : "Edit"}
+                      </Button>
+                    </li>
+                  );
                 })
               : ""}
           </ul>
