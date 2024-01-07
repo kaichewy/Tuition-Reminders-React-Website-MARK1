@@ -1,104 +1,19 @@
 import { useEffect, useState } from "react";
-import { StudentData, LessonData } from "./data.js";
+import { StudentData, LessonData, students } from "./data.js";
 import EditForm from "./EditForm.js";
 
-const students = [
-  { name: "Chao Keng EJ", level: "JC", subject: "H2 Math", rate: "$50/hr" },
-  { name: "Jamie Vardy", level: "JC", subject: "H2 Math", rate: "$50/hr" },
-  { name: "Zoom 60", level: "JC", subject: "H2 Math", rate: "$50/hr" },
-  { name: "Shar", level: "JC", subject: "H2 Math", rate: "$50/hr" },
-  { name: "Jamie Caragher", level: "JC", subject: "H2 Math", rate: "$50/hr" },
-  // { name: "Jamie Rednapp", level: "JC", subject: "H2 Math", rate: "$50/hr" },
-  // { name: "Cristiano", level: "JC", subject: "H2 Math", rate: "$50/hr" },
-  // { name: "Chao Keng EJ", level: "JC", subject: "H2 Math", rate: "$50/hr" },
-  // { name: "Jamie Vardy", level: "JC", subject: "H2 Math", rate: "$50/hr" },
-  // { name: "Zoom 60", level: "JC", subject: "H2 Math", rate: "$50/hr" },
-  // { name: "Shar", level: "JC", subject: "H2 Math", rate: "$50/hr" },
-  // { name: "Jamie Caragher", level: "JC", subject: "H2 Math", rate: "$50/hr" },
-  // { name: "Jamie Rednapp", level: "JC", subject: "H2 Math", rate: "$50/hr" },
-  // { name: "Cristiano", level: "JC", subject: "H2 Math", rate: "$50/hr" },
-];
-
-const lessons = [
-  {
-    id: 118836,
-    name: "Clark",
-    image: "https://i.pravatar.cc/48?u=118836",
-    date: "6 January 2024",
-    day: "Thurs",
-    time: "2pm - 4pm",
-  },
-  {
-    id: 933372,
-    name: "Sarah",
-    image: "https://i.pravatar.cc/48?u=933372",
-    date: "10 Febuary 2024",
-    day: "Mon",
-    time: "2pm - 4pm",
-  },
-  // {
-  //   id: 499476,
-  //   name: "Anthony",
-  //   image: "https://i.pravatar.cc/48?u=499476",
-  //   date: "10 March 2024",
-  //   day: "Fri",
-  //   time: "2pm - 4pm",
-  // },
-  // {
-  //   id: 118836,
-  //   name: "Clark",
-  //   image: "https://i.pravatar.cc/48?u=118836",
-  //   date: "10 January 2024",
-  //   day: "Thurs",
-  //   time: "2pm - 4pm",
-  // },
-  // {
-  //   id: 933372,
-  //   name: "Sarah",
-  //   image: "https://i.pravatar.cc/48?u=933372",
-  //   date: "10 Febuary 2024",
-  //   day: "Mon",
-  //   time: "2pm - 4pm",
-  // },
-  // {
-  //   id: 499476,
-  //   name: "Anthony",
-  //   image: "https://i.pravatar.cc/48?u=499476",
-  //   date: "10 March 2024",
-  //   day: "Fri",
-  //   time: "2pm - 4pm",
-  // },
-  // {
-  //   id: 118836,
-  //   name: "Clark",
-  //   image: "https://i.pravatar.cc/48?u=118836",
-  //   date: "10 January 2024",
-  //   day: "Thurs",
-  //   time: "2pm - 4pm",
-  // },
-  // {
-  //   id: 933372,
-  //   name: "Sarah",
-  //   image: "https://i.pravatar.cc/48?u=933372",
-  //   date: "10 Febuary 2024",
-  //   day: "Mon",
-  //   time: "2pm - 4pm",
-  // },
-  // {
-  //   id: 499476,
-  //   name: "Anthony",
-  //   image: "https://i.pravatar.cc/48?u=499476",
-  //   date: "10 March 2024",
-  //   day: "Fri",
-  //   time: "2pm - 4pm",
-  // },
-];
-
 function App() {
+  const [studentlist, setStudentList] = useState(students);
   const [currentDate, setNewDate] = useState(new Date().getTime());
   const [modal, setModal] = useState(false);
   const [addStudent, setAddStudent] = useState(false);
+  const lessons = students
+    ? Object.values(students).flatMap((student) =>
+        Object.values(student.lessons)
+      )
+    : [];
 
+  console.log(lessons);
   useEffect(() => {
     const interval = setInterval(() => {
       setNewDate(new Date().getTime());
@@ -106,25 +21,27 @@ function App() {
     return () => clearInterval(interval);
   }, []);
 
-  function handleStudentClick(name) {
-    if (name === modal) {
+  function handleStudentClick(studentID) {
+    console.log(studentID);
+    if (studentID === modal) {
       setAddStudent(false);
       setModal(false);
     } else {
       setAddStudent(false);
-      setModal(name);
+      setModal(studentID);
     }
   }
 
   function handleAddStudentClick() {
     setModal(false);
-    setAddStudent(true);
+    setAddStudent(!addStudent);
   }
 
   return (
     <div className="app">
       <Reminders
         lessons={lessons}
+        students={students}
         currentDate={currentDate}
         modal={modal}
         addStudent={addStudent}
@@ -132,13 +49,16 @@ function App() {
       <StudentTab
         modal={modal}
         handleStudentClick={handleStudentClick}
+        students={students}
       ></StudentTab>
       <AddStudentTab
         addStudent={addStudent}
         handleStudentClick={handleStudentClick}
+        setStudentList={setStudentList}
+        students={students}
       ></AddStudentTab>
       <StudentList
-        students={students}
+        students={studentlist}
         handleStudentClick={handleStudentClick}
         addStudent={addStudent}
         handleAddStudentClick={handleAddStudentClick}
@@ -156,7 +76,7 @@ export function Button({ children, onClick, customClass = "" }) {
   );
 }
 
-function Reminders({ lessons, currentDate, modal, addStudent }) {
+function Reminders({ lessons, students, currentDate, modal, addStudent }) {
   const diffDays =
     (new Date("6 January 2024 13:00:00") - currentDate) / (1000 * 3600 * 24);
   const diffHours = (diffDays - Math.floor(diffDays)) * 24;
@@ -180,34 +100,39 @@ function Reminders({ lessons, currentDate, modal, addStudent }) {
           {displayDiff} till next lesson
         </h3>
       </div>
-      <LessonList lessons={lessons} currentDate={currentDate}></LessonList>
+      <LessonList
+        lessons={lessons}
+        students={students}
+        currentDate={currentDate}
+      ></LessonList>
     </div>
   );
 }
 
-function LessonList({ lessons, currentDate }) {
+function LessonList({ lessons, students, currentDate }) {
   return (
     <div className="lessonlist">
       <ul>
-        {lessons.map((lesson, i) => {
-          return (
-            <Lesson
-              index={i}
-              name={lesson.name}
-              date={lesson.date}
-              day={lesson.day}
-              time={lesson.time}
-              key={lesson.id}
-              currentDate={currentDate}
-            ></Lesson>
-          );
-        })}
+        {students
+          ? lessons.map((lesson, i) => {
+              return (
+                <Lesson
+                  index={i}
+                  name={lesson.student?.name}
+                  date={lesson.date}
+                  time={lesson.time}
+                  key={lesson.id}
+                  currentDate={currentDate}
+                ></Lesson>
+              );
+            })
+          : ""}
       </ul>
     </div>
   );
 }
 
-function Lesson({ index, name, date, day, time, currentDate }) {
+function Lesson({ index, name, date, time, currentDate }) {
   const days = Math.floor((new Date(date) - currentDate) / (1000 * 24 * 3600));
   const hours = Math.round((new Date(date) - currentDate) / (1000 * 24 * 60));
   return (
@@ -216,12 +141,11 @@ function Lesson({ index, name, date, day, time, currentDate }) {
     >
       <div>
         <p>
-          <span className="blue">{name.toUpperCase()}, </span>
-          <span className="green">{date.slice(0, 2)}</span>
-          <span className="black">{date.slice(2).toUpperCase()}</span>{" "}
-          <span className="orange">({day.toUpperCase()})</span>,{" "}
-          <span className="darker">{time.toUpperCase()}</span>{" "}
-          <Button>EDIT ✏️</Button>
+          <span className="blue">{name}, </span>
+          <span className="green">{date}</span>
+          <span className="black">{date}</span>{" "}
+          {/* <span className="orange">({day})</span>,{" "} */}
+          <span className="darker">{time}</span> <Button>EDIT ✏️</Button>
         </p>
         <p>
           <span className="red">
@@ -233,25 +157,18 @@ function Lesson({ index, name, date, day, time, currentDate }) {
   );
 }
 
-function StudentList({
-  students,
-  handleStudentClick,
-  addStudent,
-  handleAddStudentClick,
-}) {
+function StudentList({ students, handleStudentClick, handleAddStudentClick }) {
   return (
     <div>
       <h1 className="heading">STUDENTS</h1>
       <div className="studentlist">
         <ul>
-          {students.map((student, i) => {
+          {Object.entries(students)?.map((student, i) => {
+            console.log(student);
             return (
               <Student
                 index={i}
-                name={student.name}
-                level={student.level}
-                subject={student.subject}
-                rate={student.rate}
+                student={student}
                 handleStudentClick={handleStudentClick}
               ></Student>
             );
@@ -267,21 +184,21 @@ function StudentList({
   );
 }
 
-function Student({ index, name, level, subject, rate, handleStudentClick }) {
+function Student({ index, student, handleStudentClick }) {
   return (
     <li
       className={index % 2 ? "off-white-bg" : ""}
-      key={index}
-      onClick={() => handleStudentClick(name)}
+      key={student[0]}
+      onClick={() => handleStudentClick(student[0])}
     >
       <div className="student">
         <div className="studentname">
-          <h1>{name.toUpperCase()}</h1>
+          <h1>{student[1].name.toUpperCase()}</h1>
         </div>
         <div>
-          <span>{level.toUpperCase()}</span> |{" "}
-          <span>{subject.toUpperCase()}</span> |{" "}
-          <span>{rate.toUpperCase()}</span>
+          <span>{student[1].level.toUpperCase()}</span> |{" "}
+          <span>{student[1].subject.toUpperCase()}</span> |{" "}
+          <span>{student[1].rate}/HR</span>
         </div>
       </div>
     </li>
@@ -319,8 +236,8 @@ function Stats() {
     </div>
   );
 }
-// @rynbol
-function StudentTab({ modal, handleStudentClick }) {
+
+function StudentTab({ modal, handleStudentClick, students }) {
   const [showEditLesson, setEditLesson] = useState(false);
   const [showEditDetails, setEditDetails] = useState(false);
 
@@ -342,7 +259,9 @@ function StudentTab({ modal, handleStudentClick }) {
   return (
     <div className={modal ? "sidebar" : "sidebar hidden"}>
       <div className="reminders-heading">
-        <h1 className="heading">{String(modal).toUpperCase()}</h1>
+        <h1 className="heading">
+          {String(students[modal]?.name).toUpperCase()}
+        </h1>
       </div>
       <div className="indiv-student">
         <div
@@ -354,54 +273,37 @@ function StudentTab({ modal, handleStudentClick }) {
               {showEditDetails ? (
                 <input value={level}></input>
               ) : (
-                <h3>LEVEL: {level}</h3>
+                <h3>LEVEL: {students[modal]?.level.toUpperCase()}</h3>
               )}
             </li>
             <li>{showEditDetails ? <p>Hi</p> : <h3>SUBJECT: {subject}</h3>}</li>
             <li>{showEditDetails ? <p>Hi</p> : <h3>RATE: ${rate}/HR</h3>}</li>
             <li>
-              {/* <h3>TOTAL EARNED: $500</h3> */}
-              <Button customClass={"editDetails"} onClick={handleEditDetails}>
-                {showEditDetails ? "Close" : "Edit details"}
-              </Button>
+              <h3>SUBJECT: {students[modal]?.subject.toUpperCase()}</h3>
+            </li>
+            <li>
+              <h3>RATE: ${students[modal]?.rate}/HR</h3>
+            </li>
+            <li>
+              <h3>TOTAL EARNED: $500</h3>
             </li>
           </ul>
         </div>
         <div className="shortlessonlist">
           <h1 className="heading">UPCOMING LESSONS</h1>
           <ul className="off-white-bg">
-            <li onClick={handleClick}>
-              <h3>
-                10 JAN 2024
-                <Button onClick={handleEdit} customClass={"float-right"}>
-                  {showEditLesson ? "Close" : "Edit"}
-                </Button>
-              </h3>
-            </li>
-            <li>
-              <h3>
-                10 JAN 2024{" "}
-                <Button onClick={handleEdit} customClass={"float-right"}>
-                  {showEditLesson ? "Close" : "Edit"}
-                </Button>
-              </h3>
-            </li>
-            <li>
-              <h3>
-                10 JAN 2024{" "}
-                <Button onClick={handleEdit} customClass={"float-right"}>
-                  {showEditLesson ? "Close" : "Edit"}
-                </Button>
-              </h3>
-            </li>
-            <li>
-              <h3>
-                10 JAN 2024
-                <Button onClick={handleEdit} customClass={"float-right"}>
-                  {showEditLesson ? "Close" : "Edit"}
-                </Button>
-              </h3>
-            </li>
+            {modal
+              ? Object.entries(students[modal]?.lessons).map((lesson) => {
+                  return (
+                    <li>
+                      {lesson[1].startTime}{" "}
+                      <Button onClick={handleEdit} customClass={"float-right"}>
+                        {showEditLesson ? "Close" : "Edit"}
+                      </Button>
+                    </li>
+                  );
+                })
+              : ""}
           </ul>
         </div>
         {showEditLesson && <EditForm />}
@@ -420,20 +322,35 @@ function StudentTab({ modal, handleStudentClick }) {
   );
 }
 
-function AddStudentTab({ addStudent, handleStudentClick }) {
+function AddStudentTab({
+  addStudent,
+  handleStudentClick,
+  setStudentList,
+  students,
+}) {
   const [studentName, setStudentName] = useState("");
   const [level, setLevel] = useState("");
   const [subject, setSubject] = useState("");
   const [rate, setRate] = useState("");
-  const [date, setDate] = useState("");
+  const [date, setDate] = useState("SUNDAY");
+  const [time, setTime] = useState("");
 
   function handleSubmit(e) {
     e.preventDefault();
 
     if (!date || !studentName || !level || !subject) return;
 
-    const newStudent = new StudentData(studentName, level, subject, rate);
-    console.log(newStudent);
+    const newStudent = new StudentData(
+      studentName,
+      level,
+      subject,
+      rate,
+      date,
+      time,
+      "2hrs"
+    );
+    students.addStudent(newStudent);
+    setStudentList(students);
   }
 
   return (
@@ -482,7 +399,7 @@ function AddStudentTab({ addStudent, handleStudentClick }) {
             <option value={date}>SATURDAY</option>
           </select>
           <label>TIME</label>
-          <select onChange={() => setDate(date)}>
+          <select onChange={() => setTime(time)}>
             <option value={date}>NIL</option>
             <option value={date}>7AM</option>
             <option value={date}>8AM</option>
@@ -509,7 +426,6 @@ function AddStudentTab({ addStudent, handleStudentClick }) {
             <option value={date}>5AM</option>
             <option value={date}>6AM</option>
           </select>
-          {/* <label>DURATION</label> */}
           <Button onClick={handleSubmit}>SAVE</Button>
         </form>
       </div>
