@@ -1,10 +1,10 @@
 class StudentData {
-  constructor(name, level, subject, rate, date, time, duration) {
+  constructor(name, level, subject, rate, day, time, duration) {
     this.name = name;
     this.level = level;
     this.subject = subject;
     this.rate = rate;
-    this.date = date;
+    this.day = day;
     this.time = time;
     this.duration = duration;
     this.lessons = {};
@@ -14,13 +14,21 @@ class StudentData {
   }
 
   createLessons() {
+    const currentDate = new Date();
+    // Calculate the difference between the current day and the desired day
+    const diff = (this.day - currentDate.getDay() + 7) % 7;
+
+    const targetDate = new Date();
+    // Calculate the date by adding the difference to the current date
+    targetDate.setDate(currentDate.getDate() + diff);
     const id = crypto.randomUUID();
     const student = this;
+    const timing = this.time;
     this.lessons[id] = new LessonData(
       id,
       student,
-      this.date,
-      this.time,
+      targetDate,
+      timing,
       this.duration
     );
   }
@@ -41,12 +49,6 @@ class AllStudentData {
     this[crypto.randomUUID()] = student;
   }
 }
-
-// class AllLessonData {
-//   addLesson(lesson) {
-//     this[lesson.id] = lesson;
-//   }
-// }
 
 const students = new AllStudentData();
 

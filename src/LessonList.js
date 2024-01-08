@@ -1,6 +1,7 @@
 import { Lesson } from "./Lesson.js";
 
 export function LessonList({ lessons, students, currentDate }) {
+  console.log(lessons);
   return (
     <div className="lessonlist">
       <ul>
@@ -11,7 +12,7 @@ export function LessonList({ lessons, students, currentDate }) {
                   index={i}
                   name={lesson.student?.name}
                   date={lesson.date}
-                  time={lesson.time}
+                  time={lesson.startTime}
                   key={lesson.id}
                   currentDate={currentDate}
                 ></Lesson>

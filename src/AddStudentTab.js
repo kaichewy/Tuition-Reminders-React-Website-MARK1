@@ -11,26 +11,28 @@ export function AddStudentTab({
   const [studentName, setStudentName] = useState("");
   const [level, setLevel] = useState("");
   const [subject, setSubject] = useState("");
-  const [rate, setRate] = useState("");
-  const [date, setDate] = useState("SUNDAY");
-  const [time, setTime] = useState("");
+  const [rate, setRate] = useState(0);
+  const [day, setDay] = useState(0);
+  const [time, setTime] = useState("7:00:00");
+  const [duration, setDuration] = useState(1);
 
   function handleSubmit(e) {
     e.preventDefault();
 
-    if (!date || !studentName || !level || !subject) return;
+    if (!day || !studentName || !level || !subject) return;
 
     const newStudent = new StudentData(
       studentName,
       level,
       subject,
       rate,
-      date,
+      day,
       time,
-      "2hrs"
+      duration
     );
     students.addStudent(newStudent);
     setStudentList(students);
+    console.log(newStudent);
   }
 
   return (
@@ -67,44 +69,51 @@ export function AddStudentTab({
             }
           />
 
-          <label>LESSON DATE</label>
-          <select onChange={() => setDate(date)}>
-            <option value={date}>NIL</option>
-            <option value={date}>SUNDAY</option>
-            <option value={date}>MONDAY</option>
-            <option value={date}>TUESDAY</option>
-            <option value={date}>WEDNESSDAY</option>
-            <option value={date}>THURSDAY</option>
-            <option value={date}>FRIDAY</option>
-            <option value={date}>SATURDAY</option>
+          <label>LESSON DAY</label>
+          <select onChange={(e) => setDay(e.target.value)}>
+            <option value={0}>SUNDAY</option>
+            <option value={1}>MONDAY</option>
+            <option value={2}>TUESDAY</option>
+            <option value={3}>WEDNESSDAY</option>
+            <option value={4}>THURSDAY</option>
+            <option value={5}>FRIDAY</option>
+            <option value={6}>SATURDAY</option>
           </select>
           <label>TIME</label>
-          <select onChange={() => setTime(time)}>
-            <option value={date}>NIL</option>
-            <option value={date}>7AM</option>
-            <option value={date}>8AM</option>
-            <option value={date}>9AM</option>
-            <option value={date}>10AM</option>
-            <option value={date}>11AM</option>
-            <option value={date}>12PM</option>
-            <option value={date}>1PM</option>
-            <option value={date}>2PM</option>
-            <option value={date}>3PM</option>
-            <option value={date}>4PM</option>
-            <option value={date}>5PM</option>
-            <option value={date}>6PM</option>
-            <option value={date}>7PM</option>
-            <option value={date}>8PM</option>
-            <option value={date}>9PM</option>
-            <option value={date}>10PM</option>
-            <option value={date}>11PM</option>
-            <option value={date}>12AM</option>
-            <option value={date}>1AM</option>
-            <option value={date}>2AM</option>
-            <option value={date}>3AM</option>
-            <option value={date}>4AM</option>
-            <option value={date}>5AM</option>
-            <option value={date}>6AM</option>
+          <select onChange={(e) => setTime(e.target.value)}>
+            <option value={"7:00:00"}>7AM</option>
+            <option value={"8:00:00"}>8AM</option>
+            <option value={"9:00:00"}>9AM</option>
+            <option value={"10:00:00"}>10AM</option>
+            <option value={"11:00:00"}>11AM</option>
+            <option value={"12:00:00"}>12PM</option>
+            <option value={"13:00:00"}>1PM</option>
+            <option value={"14:00:00"}>2PM</option>
+            <option value={"15:00:00"}>3PM</option>
+            <option value={"16:00:00"}>4PM</option>
+            <option value={"17:00:00"}>5PM</option>
+            <option value={"18:00:00"}>6PM</option>
+            <option value={"19:00:00"}>7PM</option>
+            <option value={"20:00:00"}>8PM</option>
+            <option value={"21:00:00"}>9PM</option>
+            <option value={"22:00:00"}>10PM</option>
+            <option value={"23:00:00"}>11PM</option>
+            <option value={"00:00:00"}>12AM</option>
+            <option value={"1:00:00"}>1AM</option>
+            <option value={"2:00:00"}>2AM</option>
+            <option value={"3:00:00"}>3AM</option>
+            <option value={"4:00:00"}>4AM</option>
+            <option value={"5:00:00"}>5AM</option>
+            <option value={"6:00:00"}>6AM</option>
+          </select>
+          <label>DURATION</label>
+          <select onChange={(e) => setDuration(e.target.value)}>
+            <option value={1}>1</option>
+            <option value={2}>2</option>
+            <option value={3}>3</option>
+            <option value={4}>4</option>
+            <option value={5}>5</option>
+            <option value={6}>6</option>
           </select>
           <Button onClick={handleSubmit}>SAVE</Button>
         </form>

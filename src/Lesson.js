@@ -1,23 +1,39 @@
 import { Button } from "./Button.js";
 
-export function Lesson({ index, name, date, time, currentDate }) {
-  const days = Math.floor((new Date(date) - currentDate) / (1000 * 24 * 3600));
-  const hours = Math.round((new Date(date) - currentDate) / (1000 * 24 * 60));
+export function Lesson({ index, name, date, time, key, currentDate }) {
+  const diffDays = (date.getDay() - currentDate.getDay() + 7) % 7;
+  const options = { hour: "numeric", minute: "numeric", hour12: true };
+
+  const time12HourFormat = new Date(`2000-01-01T${time}`).toLocaleTimeString(
+    undefined,
+    options
+  );
+
   return (
     <li
-      className={days <= 1 ? `red-background` : index % 2 ? `off-white-bg` : ``}
+      key={key}
+      className={
+        diffDays <= 1 ? `red-background` : index % 2 ? `off-white-bg` : ``
+      }
     >
       <div>
         <p>
-          <span className="blue">{name}, </span>
-          <span className="green">{date}</span>
-          <span className="black">{date}</span>{" "}
-          {/* <span className="orange">({day})</span>,{" "} */}
-          <span className="darker">{time}</span> <Button>EDIT ✏️</Button>
+          <span className="blue">{name.toUpperCase()}: </span>
+          <span className="darker">{date.getDate()}</span>{" "}
+          <span className="black">
+            {date.toLocaleString("default", { month: "short" }).toUpperCase()}{" "}
+          </span>{" "}
+          <span className="pink">{date.getFullYear()}</span>{" "}
+          <span className="orange">
+            ({date.toLocaleString("default", { weekday: "long" }).toUpperCase()}
+            )
+          </span>{" "}
+          | <span className="blue">{time12HourFormat}</span>{" "}
+          <Button>EDIT ✏️</Button>
         </p>
         <p>
-          <span className="red">
-            [in {days === 0 ? `${hours} hour(s)` : `${days} day(s)`}]
+          <span className={diffDays <= 1 ? "red" : "green"}>
+            [in {diffDays} day(s)]
           </span>
         </p>
       </div>

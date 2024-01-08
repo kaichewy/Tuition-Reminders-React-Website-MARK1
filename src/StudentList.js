@@ -12,7 +12,6 @@ export function StudentList({
       <div className="studentlist">
         <ul>
           {Object.entries(students)?.map((student, i) => {
-            // console.log(student);
             return (
               <Student
                 index={i}

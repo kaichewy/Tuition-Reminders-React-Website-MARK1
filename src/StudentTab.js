@@ -17,10 +17,6 @@ export function StudentTab({ modal, handleStudentClick, students }) {
     setEditLesson((cur) => !cur);
   }
 
-  function handleClick(e) {
-    console.log(e.target.value);
-  }
-
   return (
     <div className={modal ? "sidebar" : "sidebar hidden"}>
       <div className="reminders-heading">
@@ -63,8 +59,8 @@ export function StudentTab({ modal, handleStudentClick, students }) {
             {modal
               ? Object.values(students[modal]?.lessons).map((lesson) => {
                   return (
-                    <li>
-                      {lesson.date}
+                    <li key={lesson.id}>
+                      {lesson.date.getDate()}
 
                       <Button onClick={handleEdit} customClass={"float-right"}>
                         {showEditLesson ? "Close" : "Edit"}
