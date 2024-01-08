@@ -33,7 +33,7 @@ export function Lesson({ index, name, date, time, key, currentDate }) {
         </p>
         <p>
           <span className={diffDays <= 1 ? "red" : "green"}>
-            [in {diffDays} day(s)]
+            [in {diffDays} {diffDays === 1 ? "day" : "days"}]
           </span>
         </p>
       </div>
