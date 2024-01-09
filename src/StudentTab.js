@@ -1,6 +1,7 @@
 import { useState } from "react";
 import EditForm from "./EditForm.js";
 import { Button } from "./Button.js";
+import { LessonList } from "./LessonList.js";
 
 export function StudentTab({ modal, handleStudentClick, students }) {
   const [showEditLesson, setEditLesson] = useState(false);
@@ -48,7 +49,7 @@ export function StudentTab({ modal, handleStudentClick, students }) {
             <li>
               {/* <h3>TOTAL EARNED: $500</h3> */}
               <Button onClick={handleEditDetails}>
-                {showEditDetails ? "Close" : "Edit Details"}
+                {showEditDetails ? "CLOSE ❌" : "EDIT ✏️"}
               </Button>
             </li>
           </ul>
@@ -60,11 +61,23 @@ export function StudentTab({ modal, handleStudentClick, students }) {
               ? Object.values(students[modal]?.lessons).map((lesson) => {
                   return (
                     <li key={lesson.id}>
-                      {lesson.date.getDate()}
-
-                      <Button onClick={handleEdit} customClass={"float-right"}>
-                        {showEditLesson ? "Close" : "Edit"}
-                      </Button>
+                      <p>
+                        {lesson.date.getDate()}{" "}
+                        {lesson.date
+                          .toLocaleString("default", { month: "short" })
+                          .toUpperCase()}{" "}
+                        {lesson.date.getFullYear()} (
+                        {lesson.date
+                          .toLocaleString("default", { weekday: "short" })
+                          .toUpperCase()}
+                        ){" "}
+                        <Button
+                          onClick={handleEdit}
+                          customClass={"float-right"}
+                        >
+                          {showEditLesson ? "CLOSE ❌" : "EDIT ✏️"}
+                        </Button>
+                      </p>
                     </li>
                   );
                 })

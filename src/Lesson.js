@@ -19,13 +19,13 @@ export function Lesson({ index, name, date, time, key, currentDate }) {
       <div>
         <p>
           <span className="blue">{name.toUpperCase()}: </span>
-          <span className="darker">{date.getDate()}</span>{" "}
-          <span className="black">
+          <span className="black bolder bigger">{date.getDate()}</span>{" "}
+          <span className="darker">
             {date.toLocaleString("default", { month: "short" }).toUpperCase()}{" "}
           </span>{" "}
-          <span className="pink">{date.getFullYear()}</span>{" "}
-          <span className="orange">
-            ({date.toLocaleString("default", { weekday: "long" }).toUpperCase()}
+          <span className="orange big">
+            (
+            {date.toLocaleString("default", { weekday: "short" }).toUpperCase()}
             )
           </span>{" "}
           | <span className="blue">{time12HourFormat}</span>{" "}
@@ -33,7 +33,7 @@ export function Lesson({ index, name, date, time, key, currentDate }) {
         </p>
         <p>
           <span className={diffDays <= 1 ? "red" : "green"}>
-            [in {diffDays} day(s)]
+            [{diffDays === 1 ? "TOMORROW" : `in ${diffDays} days`}]
           </span>
         </p>
       </div>
