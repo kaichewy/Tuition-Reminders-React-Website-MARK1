@@ -98,7 +98,7 @@ export function StudentTab({ modal, handleStudentClick, students }) {
                   ></input>
                 </>
               ) : (
-                <h3>Level: ${student?.rate}/hr</h3>
+                <h3>Rate: ${student?.rate}/hr</h3>
               )}
             </li>
 
@@ -120,6 +120,7 @@ export function StudentTab({ modal, handleStudentClick, students }) {
                     <li
                       key={lesson.id}
                       className={curLessonId === lesson.id ? "selected" : ""}
+                      onClick={() => handleEdit(lesson.id)}
                     >
                       <IndivLesson
                         id={lesson.id}

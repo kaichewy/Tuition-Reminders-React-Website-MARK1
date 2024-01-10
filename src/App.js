@@ -17,6 +17,9 @@ function App() {
       )
     : [];
 
+  console.log(lessons);
+  console.log();
+
   useEffect(() => {
     const interval = setInterval(() => {
       setNewDate(new Date());

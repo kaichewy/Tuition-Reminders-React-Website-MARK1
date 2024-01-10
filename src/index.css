@@ -122,7 +122,6 @@ body {
   grid-row: 2;
   grid-column: 2;
   padding-top: 2rem;
-  padding-left: 1.5rem;
 }
 
 .sidebar li .button {
@@ -396,7 +395,7 @@ body {
   color: #6e6e73;
 }
 
-.shortlessonlist li:hover {
+.shortlessonlist:not(.selected) li:hover {
   background-color: var(--color-lightest);
 }
 
@@ -423,8 +422,11 @@ body {
 }
 
 .selected {
-  background-color: #99d98c;
+  /* background-color: #99d98c; */
   background-color: #d8f3dc;
+}
+.selected:hover {
+  /* pointer-events: none; */
 }
 
 .shrink-button {
