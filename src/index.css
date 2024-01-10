@@ -409,6 +409,16 @@ body {
   /* margin-left: auto; */
 }
 
+.editDetailsP {
+  margin-bottom: 0.5rem;
+}
+
+.editDetailsInput {
+  height: 25px;
+  text-transform: uppercase;
+  color: black;
+}
+
 .editDetails {
 }
 

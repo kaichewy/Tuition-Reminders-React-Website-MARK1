@@ -2,19 +2,51 @@ import { useState, useEffect } from "react";
 import { Button } from "./Button";
 
 export default function EditForm({
-  el,
-  lessons,
   curLesson,
-
+  lessons,
+  curLessonId,
   addLessons,
   onDeleteLesson,
 }) {
-  const [date, setDate] = useState("");
-  const [day, setDay] = useState("");
-  const [time, setTime] = useState("");
-  const [duration, setDuration] = useState(null);
+  const monthNames = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
 
-  //   console.log(lessons);
+  const dayNames = [
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+    "Sunday",
+  ];
+
+  console.log("EDITFORM:", curLesson);
+
+  const placeholderDate = curLesson?.date.getDate();
+  const placeholderDay = curLesson?.date.getDay();
+  const placeholderDuration = curLesson.duration;
+  const placeholderStartTime = parseInt(curLesson.startTime);
+
+  // const [date, setDate] = useState(placeholderDate);
+  const [date, setDate] = useState("");
+
+  const [month, setMonth] = useState(curLesson?.date.getMonth());
+  const [day, setDay] = useState(dayNames[placeholderDay]);
+  const [startTime, setStartTime] = useState(placeholderStartTime);
+  const [duration, setDuration] = useState(placeholderDuration);
 
   useEffect(() => {
     console.log("Lesson changed:", lessons); // Check if lessons is updating
@@ -26,7 +58,7 @@ export default function EditForm({
   function handleSubmit(e) {
     e.preventDefault();
 
-    if (!date || !day || !time || !duration) return;
+    if (!date || !day || !startTime || !duration) return;
 
     // const newLesson = [`5`, { id, date, day, time, duration }];
     // console.log(newLesson);
@@ -35,10 +67,11 @@ export default function EditForm({
 
     setDate("");
     setDay("");
-    setTime("");
+    setMonth("");
+    setStartTime("");
     setDuration("");
   }
-
+  // console.log("LESSONS:", lessons);
   return (
     <form
       onSubmit={handleSubmit}
@@ -47,29 +80,31 @@ export default function EditForm({
       <h3>Edit 10 JAN 2024 lesson</h3>
       <label>Date: </label>
       <input
-        placeholder={"10 Jan"}
+        placeholder={`${placeholderDate} ${monthNames[month].slice(0, 3)}`}
         value={date}
         onChange={(e) => setDate(e.target.value)}
       ></input>
       <label>Day: </label>
       <input
-        placeholder={"Thursday"}
+        placeholder={placeholderDay}
         value={day}
         onChange={(e) => setDay(e.target.value)}
       ></input>
 
       <label>Duration: </label>
       <input
-        placeholder={2}
+        placeholder={`${placeholderDuration} hr`}
         value={duration}
-        onChange={(e) => setDuration(e.target.value)}
+        onChange={(e) => setDuration(Number(e.target.value))}
       ></input>
 
-      <label>Time: </label>
+      <label>Start Time: </label>
       <input
-        placeholder={"7.30pm - 9.30pm"}
-        value={time}
-        onChange={(e) => setTime(e.target.value)}
+        placeholder={`${placeholderStartTime}${
+          placeholderStartTime < 12 ? "am" : "pm"
+        }`}
+        value={startTime}
+        onChange={(e) => setStartTime(e.target.value)}
       ></input>
       <Button customClass={"button"}>Submit</Button>
     </form>

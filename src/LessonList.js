@@ -1,7 +1,7 @@
-import { Lesson } from "./Lesson.js";
+import { Lesson } from "./LessonMain.js";
 
 export function LessonList({ lessons, students, currentDate }) {
-  console.log(lessons);
+  // console.log(lessons);
   return (
     <div className="lessonlist">
       <ul>

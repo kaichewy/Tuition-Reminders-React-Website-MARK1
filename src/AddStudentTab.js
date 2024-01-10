@@ -32,7 +32,7 @@ export function AddStudentTab({
     );
     students.addStudent(newStudent);
     setStudentList(students);
-    console.log(newStudent);
+    // console.log(newStudent);
   }
 
   return (
