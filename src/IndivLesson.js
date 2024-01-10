@@ -44,7 +44,7 @@ export default function IndivLesson({
       {date} {curMonth.slice(0, 3)}
     </p>
   ) : (
-    <p>
+    <p className="indivLesson">
       {date} {curMonth.slice(0, 3)} (
       {curDay === "Tuesday" ? "Tues" : curDay.slice(0, 3)}),{" "}
       {startTime < 12 ? `${startTime}am` : `${startTime}pm`} -{" "}

@@ -18,14 +18,15 @@ export function StudentTab({ modal, handleStudentClick, students }) {
   const curLesson = student?.lessons[curLessonId];
 
   // const duration = curLesson.duration;
-  if (curLesson && curLesson["duration"]) {
-    console.log("DURATION:", curLesson["duration"]);
-  } else {
-    console.log("Duration is undefined or null.");
-  }
+  // if (curLesson && curLesson["duration"]) {
+  //   console.log("DURATION:", curLesson["duration"]);
+  // } else {
+  //   console.log("Duration is undefined or null.");
+  // }
 
-  console.log("STUDENT:", student);
-  console.log("CURLESSON:", curLesson);
+  // console.log("STUDENT:", student);
+  // console.log("CURLESSON:", curLesson);
+
   // let numOfLessons = 0; // Declaring numOfLessons outside the conditional block
 
   // if (modal) {

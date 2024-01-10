@@ -33,7 +33,7 @@ export default function EditForm({
     "Sunday",
   ];
 
-  console.log("EDITFORM:", curLesson);
+  // console.log("EDITFORM:", curLesson);
 
   const placeholderDate = curLesson?.date.getDate();
   const placeholderDay = curLesson?.date.getDay();
@@ -78,7 +78,7 @@ export default function EditForm({
   return (
     <form
       onSubmit={handleSubmit}
-      className={`editForm ${lessons ? "slide-right" : ""} `}
+      className={`editForm ${lessons && "slide-right"} `}
     >
       <h3>
         Edit {placeholderDate} {monthNames[placeholderMonth].slice(0, 3)}{" "}
