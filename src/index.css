@@ -422,6 +422,17 @@ body {
 .editDetails {
 }
 
+.selected {
+  background-color: #99d98c;
+  background-color: #d8f3dc;
+}
+
+.shrink-button {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  padding: 3px 4px 3px 6px;
+}
+
 form {
   font-size: 3rem;
   display: grid;

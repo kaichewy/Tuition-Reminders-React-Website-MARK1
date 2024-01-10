@@ -4,7 +4,6 @@ import { Button } from "./Button.js";
 import IndivLesson from "./IndivLesson.js";
 
 export function StudentTab({ modal, handleStudentClick, students }) {
-  const [showEditLesson, setEditLesson] = useState(false);
   const [showEditDetails, setEditDetails] = useState(null);
   const [curLessonId, setCurLessonId] = useState(null);
 
@@ -117,18 +116,26 @@ export function StudentTab({ modal, handleStudentClick, students }) {
               ? Object.values(student?.lessons).map((lesson) => {
                   // console.log(lesson.id);
                   return (
-                    <li key={lesson.id}>
+                    <li
+                      key={lesson.id}
+                      className={curLessonId === lesson.id ? "selected" : ""}
+                    >
                       <IndivLesson
+                        id={lesson.id}
                         date={lesson.date.getDate()}
                         day={lesson.date.getDay()}
                         month={lesson.date.getMonth()}
                         startTime={lesson.startTime}
                         duration={lesson.duration}
+                        curLessonId={curLessonId}
                       />
 
                       <Button
                         onClick={() => handleEdit(lesson.id)}
-                        customClass={"float-right"}
+                        // customClass={"float-right" }
+                        customClass={`float-right ${
+                          curLessonId && "shrink-button"
+                        }`}
                       >
                         {curLessonId && lesson.id === curLessonId
                           ? "Close"

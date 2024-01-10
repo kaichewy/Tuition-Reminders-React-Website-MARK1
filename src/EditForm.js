@@ -37,13 +37,16 @@ export default function EditForm({
 
   const placeholderDate = curLesson?.date.getDate();
   const placeholderDay = curLesson?.date.getDay();
+  const placeholderMonth = curLesson?.date.getMonth();
   const placeholderDuration = curLesson.duration;
   const placeholderStartTime = parseInt(curLesson.startTime);
+
+  const placeholderYear = "20" + String(curLesson?.date.getYear() - 100);
 
   // const [date, setDate] = useState(placeholderDate);
   const [date, setDate] = useState("");
 
-  const [month, setMonth] = useState(curLesson?.date.getMonth());
+  const [month, setMonth] = useState(placeholderMonth);
   const [day, setDay] = useState(dayNames[placeholderDay]);
   const [startTime, setStartTime] = useState(placeholderStartTime);
   const [duration, setDuration] = useState(placeholderDuration);
@@ -77,7 +80,10 @@ export default function EditForm({
       onSubmit={handleSubmit}
       className={`editForm ${lessons ? "slide-right" : ""} `}
     >
-      <h3>Edit 10 JAN 2024 lesson</h3>
+      <h3>
+        Edit {placeholderDate} {monthNames[placeholderMonth].slice(0, 3)}{" "}
+        {placeholderYear} lesson
+      </h3>
       <label>Date: </label>
       <input
         placeholder={`${placeholderDate} ${monthNames[month].slice(0, 3)}`}

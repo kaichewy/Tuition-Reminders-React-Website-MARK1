@@ -1,6 +1,14 @@
 import { useState } from "react";
 
-export default function IndivLesson({ date, day, month, duration, startTime }) {
+export default function IndivLesson({
+  id,
+  date,
+  day,
+  month,
+  duration,
+  startTime,
+  curLessonId,
+}) {
   const monthNames = [
     "January",
     "February",
@@ -31,7 +39,11 @@ export default function IndivLesson({ date, day, month, duration, startTime }) {
   const curMonth = monthNames[month];
   const curDay = dayNames[day];
 
-  return (
+  return curLessonId ? (
+    <p>
+      {date} {curMonth.slice(0, 3)}
+    </p>
+  ) : (
     <p>
       {date} {curMonth.slice(0, 3)} (
       {curDay === "Tuesday" ? "Tues" : curDay.slice(0, 3)}),{" "}
@@ -40,4 +52,13 @@ export default function IndivLesson({ date, day, month, duration, startTime }) {
       {duration === 1 ? `${duration}hr` : `${duration}hrs`})
     </p>
   );
+  //   return (
+  //     <p>
+  //       {date} {curMonth.slice(0, 3)} (
+  //       {curDay === "Tuesday" ? "Tues" : curDay.slice(0, 3)}),{" "}
+  //       {startTime < 12 ? `${startTime}am` : `${startTime}pm`} -{" "}
+  //       {endTime < 12 ? `${endTime}am` : `${endTime}pm`} (
+  //       {duration === 1 ? `${duration}hr` : `${duration}hrs`})
+  //     </p>
+  //   );
 }
