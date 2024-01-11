@@ -1,7 +1,6 @@
 import { Lesson } from "./Lesson.js";
 
 export function LessonList({ lessons, students, currentDate }) {
-  console.log(lessons);
   return (
     <div className="lessonlist">
       <ul>

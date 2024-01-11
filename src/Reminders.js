@@ -22,6 +22,10 @@ export function Reminders({
         )} hour(s) ${Math.floor(diffMinutes)} Minutes(s) ${Math.floor(
           diffSeconds
         )} Seconds(s)`;
+  let sortedLessons;
+  sortedLessons = lessons
+    .slice()
+    .sort((a, b) => Number(a.date) - Number(b.date));
   return (
     <div className={modal || addStudent ? "sidebar hidden" : "sidebar"}>
       <div className="reminders-heading">
@@ -31,7 +35,7 @@ export function Reminders({
         </h3>
       </div>
       <LessonList
-        lessons={lessons}
+        lessons={sortedLessons}
         students={students}
         currentDate={currentDate}
       ></LessonList>
