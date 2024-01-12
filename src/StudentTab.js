@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import EditForm from "./EditForm.js";
 import { Button } from "./Button.js";
 import { LessonList } from "./LessonList.js";
@@ -6,41 +6,28 @@ import { LessonList } from "./LessonList.js";
 export function StudentTab({ modal, handleStudentClick, students }) {
   const [showEditDetails, setEditDetails] = useState(null);
   const [curLessonId, setCurLessonId] = useState(null);
+  let student = null;
 
-  const [level, setLevel] = useState("");
-  const [subject, setSubject] = useState("");
-  const [rate, setRate] = useState("");
+  if (modal) {
+    student = students[modal];
+  }
 
-  const student = students[modal];
+  // const oneLevel = student.level;
+  // console.log("STUDENT", student);
+  // console.log("LEVEL:", oneLevel);
+
+  const [level, setLevel] = useState(student?.level);
+  const [subject, setSubject] = useState(student?.subject);
+  const [rate, setRate] = useState(student?.rate);
+
+  // useEffect(function () {}, [student]);
 
   // WRONG MUST USE BRACKET
   // const curLesson = student?.lessons?.curLessonId;
   const curLesson = student?.lessons[curLessonId];
 
-  // const duration = curLesson.duration;
-  // if (curLesson && curLesson["duration"]) {
-  //   console.log("DURATION:", curLesson["duration"]);
-  // } else {
-  //   console.log("Duration is undefined or null.");
-  // }
-
-  // console.log("STUDENT:", student);
-  // console.log("CURLESSON:", curLesson);
-
-  // let numOfLessons = 0; // Declaring numOfLessons outside the conditional block
-
-  // if (modal) {
-  //   const modalStudent = students[modal];
-  //   if (modalStudent && modalStudent.lessons) {
-  //     numOfLessons = Object.values(modalStudent.lessons).length;
-  //   }
-  // }
-
-  // console.log("LENGTH: ", numOfLessons);
-
-  // console.log("LESSONS:", students[modal]?.lessons);
-
-  function handleEditDetails() {
+  function handleSubmitForm(e) {
+    e.preventDefault();
     setEditDetails((prev) => !prev);
   }
 
@@ -49,8 +36,6 @@ export function StudentTab({ modal, handleStudentClick, students }) {
     console.log("CURR ID: ", id);
     setCurLessonId(id);
     if (curLessonId === id) setCurLessonId(null);
-    // if (!curLessonId) setCurLessonId((prev) => !prev);
-    // setEditLesson((cur) => !cur);
   }
 
   return (
@@ -62,60 +47,75 @@ export function StudentTab({ modal, handleStudentClick, students }) {
         <div className={`indiv-student-details ${curLessonId ? "hidden" : ""}`}>
           <h1 className="heading">DETAILS</h1>
           <ul>
-            <li>
-              {showEditDetails ? (
-                <>
-                  <p className="editDetailsP">Level:</p>
-                  <input
-                    placeholder={student?.level}
-                    className="editDetailsInput"
-                  ></input>
-                </>
-              ) : (
-                <h3>Level: {student?.level}</h3>
-              )}
-            </li>
-            <li>
-              {showEditDetails ? (
-                <>
-                  <p className="editDetailsP">Subject:</p>
-                  <input
-                    placeholder={student?.subject}
-                    className="editDetailsInput"
-                  ></input>
-                </>
-              ) : (
-                <h3>Subject: {student?.subject}</h3>
-              )}
-            </li>
-            <li>
-              {showEditDetails ? (
-                <>
-                  <p className="editDetailsP">Rate:</p>
-                  <input
-                    placeholder={`${student?.rate}/hr`}
-                    className="editDetailsInput"
-                  ></input>
-                </>
-              ) : (
-                <h3>Rate: ${student?.rate}/hr</h3>
-              )}
-            </li>
+            <i
+              class={`fa ${!showEditDetails && "hidden"}`}
+              onClick={() => setEditDetails((cur) => !cur)}
+            >
+              &#xf104;
+            </i>
 
-            <li>
-              {/* <h3>TOTAL EARNED: $500</h3> */}
-              <Button onClick={handleEditDetails}>
-                {showEditDetails ? "CLOSE ❌" : "EDIT ✏️"}
-              </Button>
-            </li>
+            <form
+              className={`studentDetails ${showEditDetails && "marginBottom"}`}
+              onSubmit={(e) => handleSubmitForm(e)}
+            >
+              {showEditDetails ? (
+                <>
+                  <div>
+                    <p className="editDetailsP">Level:</p>
+                    <input
+                      placeholder={student.level}
+                      className="editDetailsInput"
+                      onChange={(e) => setLevel(e.target.value)}
+                      value={level}
+                    ></input>
+                  </div>
+                  <div>
+                    <p className="editDetailsP">Subject:</p>
+                    <input
+                      placeholder={student.subject}
+                      className="editDetailsInput"
+                      onChange={(e) => setSubject(e.target.value)}
+                      value={subject}
+                    ></input>
+                  </div>
+                  <div>
+                    <p className="editDetailsP">Rate:</p>
+                    <input
+                      placeholder={`${student.rate}`}
+                      className="editDetailsInput"
+                      onChange={(e) => setRate(e.target.value)}
+                      value={rate}
+                    ></input>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <h3>Level: {student?.level}</h3>
+                  <h3>Subject: {student?.subject}</h3>
+                  <h3>Rate: ${student?.rate}/hr</h3>
+                </>
+              )}
+              {showEditDetails ? (
+                <Button
+                  onClick={handleSubmitForm}
+                  customId={"marginTop"}
+                  customClass={"noTransition"}
+                >
+                  Submit
+                </Button>
+              ) : (
+                <Button onClick={handleSubmitForm}>EDIT ✏️</Button>
+              )}
+            </form>
           </ul>
         </div>
         <div className="shortlessonlist">
-          <h1 className="heading">UPCOMING LESSONS</h1>
+          <h1 className="heading">
+            {curLessonId ? "LESSONS" : "UPCOMING LESSONS"}
+          </h1>
           <ul className="off-white-bg">
             {modal
               ? Object.values(student?.lessons).map((lesson) => {
-                  // console.log(lesson.id);
                   return (
                     <li
                       key={lesson.id}
@@ -132,29 +132,34 @@ export function StudentTab({ modal, handleStudentClick, students }) {
                           .toLocaleString("default", { weekday: "short" })
                           .toUpperCase()}
                         ){" "}
-                        <Button
-                          onClick={() => handleEdit(lesson.id)}
-                          // customClass={"float-right" }
-                          customClass={"float-right"}
-                        >
-                          {curLessonId && lesson.id === curLessonId
-                            ? "Close"
-                            : "Edit"}
-                        </Button>
+                        {curLessonId && !(lesson.id === curLessonId) && (
+                          <Button onClick={() => handleEdit(lesson.id)}>
+                            {curLessonId && lesson.id === curLessonId
+                              ? "Close"
+                              : "Edit"}
+                          </Button>
+                        )}
                       </p>
+                      {!curLessonId && (
+                        <Button onClick={() => handleEdit(lesson.id)}>
+                          Edit
+                        </Button>
+                      )}
                     </li>
                   );
                 })
               : ""}
           </ul>
+          {curLessonId && (
+            <Button
+              customId={"marginBottom"}
+              onClick={() => setCurLessonId(null)}
+            >
+              Close
+            </Button>
+          )}
         </div>
-        {curLessonId && (
-          <EditForm
-            // lessons={student?.lessons}
-            // curLessonId={curLessonId}
-            curLesson={curLesson}
-          />
-        )}
+        {curLessonId && <EditForm curLesson={curLesson} />}
       </div>
 
       <div class="div-button-back-more">
