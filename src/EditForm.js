@@ -38,7 +38,7 @@ export default function EditForm({
   const placeholderDate = curLesson?.date.getDate();
   const placeholderDay = curLesson?.date.getDay();
   const placeholderMonth = curLesson?.date.getMonth();
-  const placeholderDuration = curLesson.duration;
+  const placeholderDuration = curLesson?.duration;
   const placeholderStartTime = parseInt(curLesson.startTime);
 
   const placeholderYear = "20" + String(curLesson?.date.getYear() - 100);
@@ -55,18 +55,11 @@ export default function EditForm({
     console.log("Lesson changed:", lessons); // Check if lessons is updating
   }, [lessons]);
   const id = crypto.randomUUID();
-  //   const curLesson = lessons?.[1];
-  // console.log(curLesson);
 
   function handleSubmit(e) {
     e.preventDefault();
 
     if (!date || !day || !startTime || !duration) return;
-
-    // const newLesson = [`5`, { id, date, day, time, duration }];
-    // console.log(newLesson);
-    // onDeleteLesson(curLesson.id);
-    // addLessons((lessons) => [newLesson, ...lessons]);
 
     setDate("");
     setDay("");

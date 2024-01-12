@@ -8,6 +8,7 @@ export default function IndivLesson({
   duration,
   startTime,
   curLessonId,
+  children,
 }) {
   const monthNames = [
     "January",
@@ -41,7 +42,7 @@ export default function IndivLesson({
 
   return curLessonId ? (
     <p>
-      {date} {curMonth.slice(0, 3)}
+      {date} {curMonth.slice(0, 3)} {children}
     </p>
   ) : (
     <p className="indivLesson">
@@ -52,13 +53,4 @@ export default function IndivLesson({
       {duration === 1 ? `${duration}hr` : `${duration}hrs`})
     </p>
   );
-  //   return (
-  //     <p>
-  //       {date} {curMonth.slice(0, 3)} (
-  //       {curDay === "Tuesday" ? "Tues" : curDay.slice(0, 3)}),{" "}
-  //       {startTime < 12 ? `${startTime}am` : `${startTime}pm`} -{" "}
-  //       {endTime < 12 ? `${endTime}am` : `${endTime}pm`} (
-  //       {duration === 1 ? `${duration}hr` : `${duration}hrs`})
-  //     </p>
-  //   );
 }
