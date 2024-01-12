@@ -153,6 +153,18 @@ body {
   color: #ff6ac2;
 }
 
+.bolder {
+  font-weight: 900;
+}
+
+.big {
+  font-size: 4rem;
+}
+
+.bigger {
+  font-size: 5rem;
+}
+
 .red-background {
   background-color: #fddfdf;
 }
@@ -419,6 +431,10 @@ body {
 }
 
 .editDetails {
+  background-color: #fafafc;
+  margin-right: 1.5rem;
+  margin-bottom: 1rem;
+  padding: 1rem 1.15rem;
 }
 
 .selected {
@@ -481,4 +497,15 @@ select:focus {
 form .button {
   margin-top: 0.6rem;
   grid-column: 2;
+}
+
+.shortlessonlist p {
+  width: 100%;
+  text-align: center;
+}
+
+.indiv-student-details button {
+  width: 90%;
+  background-color: #f8f8f8;
+  box-shadow: 2px 4px 12px rgba(0, 0, 0, 0.08);
 }

@@ -14,7 +14,7 @@ export function StudentList({
           {Object.entries(students)?.map((student, i) => {
             return (
               <Student
-                index={i}
+                index={i + 1}
                 student={student}
                 handleStudentClick={handleStudentClick}
               ></Student>

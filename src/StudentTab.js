@@ -1,7 +1,7 @@
 import { useState } from "react";
 import EditForm from "./EditForm.js";
 import { Button } from "./Button.js";
-import IndivLesson from "./IndivLesson.js";
+import { LessonList } from "./LessonList.js";
 
 export function StudentTab({ modal, handleStudentClick, students }) {
   const [showEditDetails, setEditDetails] = useState(null);
@@ -105,7 +105,7 @@ export function StudentTab({ modal, handleStudentClick, students }) {
             <li>
               {/* <h3>TOTAL EARNED: $500</h3> */}
               <Button onClick={handleEditDetails}>
-                {showEditDetails ? "Close" : "Edit Details"}
+                {showEditDetails ? "CLOSE ❌" : "EDIT ✏️"}
               </Button>
             </li>
           </ul>
@@ -122,27 +122,26 @@ export function StudentTab({ modal, handleStudentClick, students }) {
                       className={curLessonId === lesson.id ? "selected" : ""}
                       onClick={() => handleEdit(lesson.id)}
                     >
-                      <IndivLesson
-                        id={lesson.id}
-                        date={lesson.date.getDate()}
-                        day={lesson.date.getDay()}
-                        month={lesson.date.getMonth()}
-                        startTime={lesson.startTime}
-                        duration={lesson.duration}
-                        curLessonId={curLessonId}
-                      />
-
-                      <Button
-                        onClick={() => handleEdit(lesson.id)}
-                        // customClass={"float-right" }
-                        customClass={`float-right ${
-                          curLessonId && "shrink-button"
-                        }`}
-                      >
-                        {curLessonId && lesson.id === curLessonId
-                          ? "Close"
-                          : "Edit"}
-                      </Button>
+                      <p>
+                        {lesson.date.getDate()}{" "}
+                        {lesson.date
+                          .toLocaleString("default", { month: "short" })
+                          .toUpperCase()}{" "}
+                        {lesson.date.getFullYear()} (
+                        {lesson.date
+                          .toLocaleString("default", { weekday: "short" })
+                          .toUpperCase()}
+                        ){" "}
+                        <Button
+                          onClick={() => handleEdit(lesson.id)}
+                          // customClass={"float-right" }
+                          customClass={"float-right"}
+                        >
+                          {curLessonId && lesson.id === curLessonId
+                            ? "Close"
+                            : "Edit"}
+                        </Button>
+                      </p>
                     </li>
                   );
                 })
