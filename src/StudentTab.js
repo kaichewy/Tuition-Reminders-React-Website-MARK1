@@ -174,16 +174,17 @@ export function StudentTab({ modal, handleStudentClick, students }) {
                         )}
 
                         {curLessonId && !(lesson.id === curLessonId) && (
-                          <Button onClick={() => handleEdit(lesson.id)}>
-                            {curLessonId && lesson.id === curLessonId
-                              ? "Close"
-                              : "Edit"}
+                          <Button
+                            onClick={() => handleEdit(lesson.id)}
+                            customId="lessonEditButton"
+                          >
+                            ✏️
                           </Button>
                         )}
                       </p>
                       {!curLessonId && (
                         <Button onClick={() => handleEdit(lesson.id)}>
-                          Edit
+                          ✏️
                         </Button>
                       )}
                     </li>

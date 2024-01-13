@@ -125,8 +125,9 @@ body {
 
 .sidebar li .button {
   margin: 0;
-  margin-left: 1.3rem;
+  /* margin-left: 1.3rem; */
   width: fit-content;
+  margin-right: 1rem;
 }
 
 .green {
@@ -507,18 +508,6 @@ a {
   margin-bottom: 2rem;
 } */
 
-#marginBottom {
-  width: 58%;
-  border-radius: 1.5rem;
-  text-transform: uppercase;
-  /* width: 246px; */
-  margin-bottom: 1.5rem;
-}
-
-#marginTop {
-  margin-top: 1.8rem;
-}
-
 .indiv-student,
 form .button {
   margin-top: 0.6rem;
@@ -528,6 +517,7 @@ form .button {
 .shortlessonlist p {
   width: 100%;
   text-align: center;
+  margin-left: 2rem;
 }
 
 .indiv-student-details button {
@@ -546,6 +536,23 @@ form .button {
 
 .noMarginTop {
   margin-top: 0rem;
+}
+
+#marginBottom {
+  width: 58%;
+  border-radius: 1.5rem;
+  text-transform: uppercase;
+  /* width: 246px; */
+  margin-bottom: 1.5rem;
+}
+
+#marginTop {
+  margin-top: 1.8rem;
+}
+
+#lessonEditButton {
+  margin-left: 1rem;
+  margin-right: 0;
 }
 
 /* 
