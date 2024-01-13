@@ -13,7 +13,7 @@ export function StudentTab({ modal, handleStudentClick, students }) {
   }
 
   // const oneLevel = student.level;
-  // console.log("STUDENT", student);
+  console.log("STUDENT", student);
   // console.log("LEVEL:", oneLevel);
 
   const [level, setLevel] = useState(student?.level);
@@ -55,7 +55,9 @@ export function StudentTab({ modal, handleStudentClick, students }) {
             </i>
 
             <form
-              className={`studentDetails ${showEditDetails && "marginBottom"}`}
+              className={`studentDetails ${
+                showEditDetails && "marginBottom noMarginTop"
+              }`}
               onSubmit={(e) => handleSubmitForm(e)}
             >
               {showEditDetails ? (
@@ -116,22 +118,61 @@ export function StudentTab({ modal, handleStudentClick, students }) {
           <ul className="off-white-bg">
             {modal
               ? Object.values(student?.lessons).map((lesson) => {
+                  console.log("LESSON IS:", lesson);
                   return (
                     <li
                       key={lesson.id}
                       className={curLessonId === lesson.id ? "selected" : ""}
                       onClick={() => handleEdit(lesson.id)}
                     >
-                      <p>
-                        {lesson.date.getDate()}{" "}
-                        {lesson.date
-                          .toLocaleString("default", { month: "short" })
-                          .toUpperCase()}{" "}
-                        {lesson.date.getFullYear()} (
-                        {lesson.date
-                          .toLocaleString("default", { weekday: "short" })
-                          .toUpperCase()}
-                        ){" "}
+                      {console.log("DATE:", lesson.date)}
+                      <p className="capitalise spread">
+                        {curLessonId ? (
+                          <>
+                            {lesson.date.getDate()}{" "}
+                            {lesson.date
+                              .toLocaleString("default", { month: "short" })
+                              .toUpperCase()}{" "}
+                          </>
+                        ) : (
+                          <>
+                            {lesson.date.getDate()}{" "}
+                            {lesson.date
+                              .toLocaleString("default", { month: "short" })
+                              .toUpperCase()}{" "}
+                            (
+                            {lesson.date.toLocaleString("default", {
+                              weekday: "short",
+                            })}
+                            ),{" "}
+                            {lesson.startTime.split(":")[0] >= 12 ? (
+                              <>{lesson.startTime.split(":")[0] - 12} pm</>
+                            ) : (
+                              <>{lesson.startTime.split(":")[0]} am</>
+                            )}
+                            {lesson.startTime.split(":")[1] !== "00" &&
+                              lesson.startTime.split(":")[1]}{" "}
+                            -{" "}
+                            {lesson.startTime.split(":")[0] >= 12 ? (
+                              <>
+                                {lesson.startTime.split(":")[0] -
+                                  12 +
+                                  lesson.duration}{" "}
+                                pm
+                              </>
+                            ) : (
+                              <>
+                                {parseInt(lesson.startTime.split(":")[0]) +
+                                  lesson.duration}{" "}
+                                am
+                              </>
+                            )}
+                            {/* prettier-ignore */}
+                            {"  "}[{lesson.duration}
+                            {lesson.duration === 1 ? "hr" : "hrs"}]
+                          </>
+                        )}
+
                         {curLessonId && !(lesson.id === curLessonId) && (
                           <Button onClick={() => handleEdit(lesson.id)}>
                             {curLessonId && lesson.id === curLessonId
