@@ -12,9 +12,7 @@ export function StudentTab({ modal, handleStudentClick, students }) {
     student = students[modal];
   }
 
-  // const oneLevel = student.level;
   console.log("STUDENT", student);
-  // console.log("LEVEL:", oneLevel);
 
   const [level, setLevel] = useState(student?.level);
   const [subject, setSubject] = useState(student?.subject);
@@ -29,11 +27,14 @@ export function StudentTab({ modal, handleStudentClick, students }) {
   function handleSubmitForm(e) {
     e.preventDefault();
     setEditDetails((prev) => !prev);
+    student.level = level;
+    student.subject = subject;
+    student.rate = rate;
   }
 
   function handleEdit(id) {
-    console.log("STUDENTS: ", students);
-    console.log("CURR ID: ", id);
+    // console.log("STUDENTS: ", students);
+    // console.log("CURR ID: ", id);
     setCurLessonId(id);
     if (curLessonId === id) setCurLessonId(null);
   }
@@ -106,7 +107,9 @@ export function StudentTab({ modal, handleStudentClick, students }) {
                   Submit
                 </Button>
               ) : (
-                <Button onClick={handleSubmitForm}>EDIT ✏️</Button>
+                <Button onClick={handleSubmitForm} customClass="noTransition">
+                  EDIT ✏️
+                </Button>
               )}
             </form>
           </ul>
@@ -118,14 +121,13 @@ export function StudentTab({ modal, handleStudentClick, students }) {
           <ul className="off-white-bg">
             {modal
               ? Object.values(student?.lessons).map((lesson) => {
-                  console.log("LESSON IS:", lesson);
+                  // console.log("LESSON IS:", lesson);
                   return (
                     <li
                       key={lesson.id}
                       className={curLessonId === lesson.id ? "selected" : ""}
                       onClick={() => handleEdit(lesson.id)}
                     >
-                      {console.log("DATE:", lesson.date)}
                       <p className="capitalise spread">
                         {curLessonId ? (
                           <>
