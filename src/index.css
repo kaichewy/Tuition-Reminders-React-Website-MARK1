@@ -479,7 +479,7 @@ a {
   background-color: var(--color-light);
   padding: 20px 0;
   box-shadow: none;
-  margin-top: 1rem;
+  margin-top: 2rem;
 }
 /* Back button */
 .fa {
@@ -487,6 +487,8 @@ a {
   margin-top: 2rem;
   font-size: 2rem;
   background-color: var(--color-light);
+  width: 30px;
+  height: 25px;
 }
 .fa:hover {
   cursor: pointer;
@@ -533,6 +535,19 @@ form .button {
   background-color: #f8f8f8;
   box-shadow: 2px 4px 12px rgba(0, 0, 0, 0.08);
 }
+
+.capitalise {
+  text-transform: uppercase;
+}
+
+.spread {
+  letter-spacing: 1px;
+}
+
+.noMarginTop {
+  margin-top: 0rem;
+}
+
 /* 
 .submitDetails {
   width: 60%;
