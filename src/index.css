@@ -453,6 +453,10 @@ body {
   /* pointer-events: none; */
 }
 
+.selected p {
+  margin-left: 0rem;
+}
+
 .shrink-button {
   transition-duration: 0s;
   margin-top: 1rem;
@@ -518,6 +522,10 @@ form .button {
   width: 100%;
   text-align: center;
   margin-left: 2rem;
+}
+
+.shortlessonlist .selected p {
+  margin-left: 0rem;
 }
 
 .indiv-student-details button {
