@@ -8,6 +8,8 @@ export default function EditForm({
   addLessons,
   onDeleteLesson,
 }) {
+  console.log("LESSONS:", lessons);
+  console.log("CURRENT LESSON:", lessons[curLesson.id]);
   const monthNames = [
     "January",
     "February",
@@ -61,16 +63,25 @@ export default function EditForm({
 
     if (!date || !day || !startTime || !duration) return;
 
+    const newLesson = {
+      id: {
+        date,
+        duration,
+        id,
+      },
+    };
+    const newLessons = { ...lessons, newLesson };
+
     setDate("");
     setDay("");
     setMonth("");
     setStartTime("");
     setDuration("");
   }
-  // console.log("LESSONS:", lessons);
+
   return (
     <form
-      onSubmit={handleSubmit}
+      onSubmit={(e) => handleSubmit(e)}
       className={`editForm ${lessons && "slide-right"} `}
     >
       <h3>

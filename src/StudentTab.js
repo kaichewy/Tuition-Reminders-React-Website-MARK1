@@ -12,13 +12,18 @@ export function StudentTab({ modal, handleStudentClick, students }) {
     student = students[modal];
   }
 
-  console.log("STUDENT", student);
+  const [level, setLevel] = useState("");
+  const [subject, setSubject] = useState("");
+  const [rate, setRate] = useState("");
 
-  const [level, setLevel] = useState(student?.level);
-  const [subject, setSubject] = useState(student?.subject);
-  const [rate, setRate] = useState(student?.rate);
-
-  // useEffect(function () {}, [student]);
+  useEffect(
+    function () {
+      setLevel(student?.level);
+      setSubject(student?.subject);
+      setRate(student?.rate);
+    },
+    [student]
+  );
 
   // WRONG MUST USE BRACKET
   // const curLesson = student?.lessons?.curLessonId;
@@ -26,10 +31,16 @@ export function StudentTab({ modal, handleStudentClick, students }) {
 
   function handleSubmitForm(e) {
     e.preventDefault();
+    console.log("SUBMIT FORM!");
     setEditDetails((prev) => !prev);
     student.level = level;
     student.subject = subject;
     student.rate = rate;
+  }
+
+  function showEdit(e) {
+    e.preventDefault();
+    setEditDetails((curr) => !curr);
   }
 
   function handleEdit(id) {
@@ -107,7 +118,12 @@ export function StudentTab({ modal, handleStudentClick, students }) {
                   Submit
                 </Button>
               ) : (
-                <Button onClick={handleSubmitForm} customClass="noTransition">
+                <Button
+                  // onClick={() => setEditDetails((prev) => !prev)}
+                  // onClick={() => setEditDetails((cur) => !cur)}
+                  onClick={showEdit}
+                  customClass="noTransition"
+                >
                   EDIT ✏️
                 </Button>
               )}
@@ -203,7 +219,9 @@ export function StudentTab({ modal, handleStudentClick, students }) {
             </Button>
           )}
         </div>
-        {curLessonId && <EditForm curLesson={curLesson} />}
+        {curLessonId && (
+          <EditForm curLesson={curLesson} lessons={student?.lessons} />
+        )}
       </div>
 
       <div class="div-button-back-more">
